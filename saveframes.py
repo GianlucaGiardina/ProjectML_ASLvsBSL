@@ -12,6 +12,14 @@ def extract_frames_from_videos(input_folder):
         entry.split("_")[0].upper() for entry in entries if entry.endswith(".mp4")
     )
 
+    # Percorsi delle cartelle Train e No_train
+    train_root_folder = os.path.join(input_folder, "Train")
+    no_train_root_folder = os.path.join(input_folder, "No_train")
+
+    # Creare le cartelle Train e No_train, se non esistono
+    os.makedirs(train_root_folder, exist_ok=True)
+    os.makedirs(no_train_root_folder, exist_ok=True)
+
     # Scorrere ogni lettera presente
     for letter in sorted(letters_present):
         # Percorsi ai video specifici per la lettera corrente
@@ -25,9 +33,11 @@ def extract_frames_from_videos(input_folder):
         if not video_files:
             continue
 
-        # Creare la cartella per la lettera, se non esiste
-        letter_folder = os.path.join(input_folder, letter)
-        os.makedirs(letter_folder, exist_ok=True)
+        # Creare le cartelle per la lettera dentro Train e No_train, se non esistono
+        train_folder = os.path.join(train_root_folder, letter)
+        no_train_folder = os.path.join(no_train_root_folder, letter)
+        os.makedirs(train_folder, exist_ok=True)
+        os.makedirs(no_train_folder, exist_ok=True)
 
         frame_count = 0
 
@@ -52,13 +62,10 @@ def extract_frames_from_videos(input_folder):
                 frame_count += 1
                 if i == 2:  # Se è il terzo video
                     save_path = os.path.join(
-                        letter_folder, letter, f"{letter}{frame_count}.jpg"
+                        no_train_folder, f"{letter}{frame_count}.jpg"
                     )
-                    os.makedirs(os.path.join(letter_folder, letter), exist_ok=True)
                 else:
-                    save_path = os.path.join(
-                        letter_folder, f"{letter}{frame_count}.jpg"
-                    )
+                    save_path = os.path.join(train_folder, f"{letter}{frame_count}.jpg")
 
                 cv2.imwrite(save_path, frame)
 
@@ -66,5 +73,6 @@ def extract_frames_from_videos(input_folder):
 
 
 if __name__ == "__main__":
-    input_path = "/home/giuseppe/lm_18/ProjectML_ASLvsBSL/ml/bsl"
+    alphabet = "asl"
+    input_path = f"/home/giuseppe/lm_18/ProjectML_ASLvsBSL/dataset/{alphabet}"
     extract_frames_from_videos(input_path)
