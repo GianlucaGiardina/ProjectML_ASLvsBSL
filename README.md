@@ -23,3 +23,5 @@ train, test e validation;
 Per eseguire `demo.ipynb`, è sufficiente aprirlo e avviarlo su Google Colab, poiché i tre modelli sono salvati su Google Storage e vengono scaricati automaticamente.
 
 All'interno di tutti i notebook è presente il link colab così da poter rieseguire il codice se necessario.
+
+Il video demo.mp4 mostra come utilizzare la demo.
